@@ -1,0 +1,67 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <nav class="mb-1 navbar navbar-expand-lg navbar-dark  mdb-color darken-3 " th:fragment="simplenavbar">
+        <a class="navbar-brand" href="#" th:text="#{navbar.labels.app}"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
+                aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link"  th:href="@{/home}" th:text="#{navbar.labels.home}">
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/team/home}" th:text="#{navbar.labels.team}"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/player/home}" th:text="#{navbar.labels.player}"></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/fan/home}" th:text="#{navbar.labels.fan}"></a>
+                </li>
+
+            </ul>
+            <ul class="navbar-nav ml-auto nav-flex-icons">
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" href="https://github.com/alexmariani/SpringThymeleafSecurityXmlFinal">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" href="https://drive.google.com/drive/folders/13KOLsihfyiTJJgsTa55u_nBcl6LfTRhX?usp=sharing">
+                        <i class="fab fa-google-plus-g"></i>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <div sec:authorize="isAuthenticated()">
+                        <div class="dropdown-menu dropdown-menu-right dropdown-default"
+                             aria-labelledby="navbarDropdownMenuLink-333">
+                            <a class="dropdown-item" th:href="@{/profile}">Profile</a>
+                            <form th:action="@{/logout}" method="post"> 
+                                <a class="dropdown-item" onclick="this.closest('form').submit();return false;" >Logout</a>
+                            </form>
+                        </div>
+                    </div>
+                    <div sec:authorize="isAnonymous()">
+                        <div class="dropdown-menu dropdown-menu-right dropdown-default"
+                             aria-labelledby="navbarDropdownMenuLink-333">
+                           
+                            <a class="dropdown-item" th:href="@{/login.html}">Login</a>
+                            <a class="dropdown-item" th:href="@{/signup}">Registrati</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!--/.Navbar -->
+
+
+</html>

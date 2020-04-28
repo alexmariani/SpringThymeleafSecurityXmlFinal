@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    
+    <bean id="templateResolver"
+          class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/WEB-INF/templates/" />
+        <property name="suffix" value=".html" />
+        <!-- HTML is the default value, added here for the sake of clarity.          -->
+        <property name="templateMode" value="HTML" />
+        <!-- Template cache is true by default. Set to false if you want             -->
+        <!-- templates to be automatically updated when modified.                    -->
+        <property name="cacheable" value="false" />
+    </bean>
+    
+    <!--bean id="layoutDialect" class="nz.net.ultraq.thymeleaf.LayoutDialect">
+        <constructor-arg ref="groupingStrategy"/>
+    </bean-->
+    
+    <bean id="templateEngine"
+          class="org.thymeleaf.spring5.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver" />
+        
+        
+        <property name="additionalDialects">
+            <set>
+                <bean class="nz.net.ultraq.thymeleaf.LayoutDialect"/>
+                <bean class="org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect"/>
+            </set>
+        </property>
+
+    </bean>
+    
+    <bean id="viewResolver"
+          class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine" />
+    </bean>
+    
+    <!-- Message Source -->
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>messages</value> <!-- i18n -->
+                <value>validation</value> 
+            </list>
+        </property>
+    </bean>
+          
+    <bean id="localeResolver" 
+          class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"/>
+    
+    <!--bean id="localeResolver" 
+    class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/-->
+    
+    <bean id="localeChangeInterceptor"
+          class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+</beans>

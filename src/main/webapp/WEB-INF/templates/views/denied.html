@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3" layout:decorator="~{model/main.html}">
+    <head>
+        <title>Denied -- Title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+          <div id="intro" class="view" layout:fragment="page-content">
+
+            <div class="mask rgba-black-strong">
+
+                <div class="container-fluid d-flex align-items-center justify-content-center h-100">
+
+                    <div class="row d-flex justify-content-center text-center">
+
+                        <div class="col-md-10">
+
+                            <!-- Heading -->
+                            <h2 class="display-4 font-weight-bold white-text pt-5 mb-2">Accesso Vietato</h2>
+
+                            <!-- Divider -->
+                            <hr class="hr-light">
+
+                            <!-- Description -->
+                            <h4 class="white-text my-4">Non possiedi i permessi per accedere alla risorsa</h4>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </body>
+</html>

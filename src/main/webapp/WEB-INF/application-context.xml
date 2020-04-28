@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+    ">
+ 
+    <context:component-scan base-package="it.jdk.hibernatespringthymelearfteam" />
+        
+    <mvc:annotation-driven />
+    <mvc:resources mapping="/static/**" location="/WEB-INF/static/" />
+    <tx:annotation-driven  />
+    
+    <!-- NECESSARIO PER L'EXCEPTION TRANSLATION MEDIANTE @Repository-->
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" /> 
+    
+    <bean id="sessionFactory" 
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan" value="it.jdk.hibernatespringthymelearfteam.domain" />
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+                <!-- fix per il problema del lazy-init sulle collections -->
+                <prop key="hibernate.enable_lazy_load_no_trans">true</prop> 
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+          p:driverClassName="${jdbc.driverClassName}"
+          p:url="${jdbc.url}"
+          p:username="${jdbc.username}"
+          p:password="${jdbc.password}">
+    </bean>
+   
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+    <!-- PRE-POPULATE DB FOR DEV AND TESTING PURPOSE -->
+    <bean class="it.jdk.hibernatespringthymelearfteam.utils.DbSetup" init-method="initialize"  
+          depends-on="sessionFactory"/>
+    
+    <sec:global-method-security  pre-post-annotations="enabled" secured-annotations="enabled"/>
+
+    <beans profile="dev">
+        <bean id="propertyConfigurer"
+              class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+              p:location="/WEB-INF/jdbc.properties" />
+    </beans>
+    
+    <beans profile="test">
+        <bean id="propertyConfigurer"
+              class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+              p:location="/WEB-INF/jdbc-test.properties" />
+    </beans>
+</beans>

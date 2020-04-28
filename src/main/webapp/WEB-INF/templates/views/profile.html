@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3" layout:decorator="~{model/mainhome.html}">
+    <head>
+        <title> PROFILE -- TITLE </title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div id="intro" class="view" layout:fragment="page-content" >
+
+            <div class="mask rgba-black-strong">
+
+                <div class="container-fluid d-flex align-items-center justify-content-center h-100">
+
+                    <div class="row d-flex justify-content-center text-center">
+                        <div class="card card-personal mb-4">
+
+                            <!--Card image-->
+                            <div class="view">
+                                <img class="card-img-top" src="https://cdn.pixabay.com/photo/2018/09/23/18/30/drop-3698073_960_720.jpg" alt="Card image cap">
+                                <a href="#!">
+                                    <div class="mask rgba-white-slight"></div>
+                                </a>
+                            </div>
+                            <!--Card image-->
+
+                            <!--Card content-->
+                            <div class="card-body">
+                                <!--Title-->
+                                <a>
+                                    <h4 class="card-title"> Username <span sec:authentication="name"/></h4>
+                                </a>
+                                <a class="card-meta"> Roles <span sec:authentication="principal.authorities"/> </a>
+
+                            </div>
+                            <!--Card content-->
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
